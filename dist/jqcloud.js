@@ -2,7 +2,7 @@
  * jQCloud 2.0.1
  * Copyright 2011 Luca Ongaro (http://www.lucaongaro.eu)
  * Copyright 2013 Daniel White (http://www.developerdan.com)
- * Copyright 2014 Damien "Mistic" Sorel (http://www.strangeplanet.fr)
+ * Copyright 2015 Damien "Mistic" Sorel (http://www.strangeplanet.fr)
  * Licensed under MIT (http://opensource.org/licenses/MIT)
  */
 /*jshint -W055 *//* non standard constructor name */
@@ -53,7 +53,8 @@
     autoResize: false,
     colors: null,
     fontSize: null,
-    template: null
+    template: null,
+    blank: false
   };
 
   jQCloud.prototype = {
@@ -216,7 +217,7 @@
     // Initialize the drawing of the whole cloud
     drawWordCloud: function() {
       var i, l;
-      
+
       this.$element.children('[id^="' + this.data.namespace + '"]').remove();
 
       if (this.word_array.length === 0) {
@@ -321,6 +322,10 @@
           word.link = { href: word.link };
         }
 
+        if (this.options.blank) {
+            word.link.target = '_blank';
+        }
+
         if (this.options.encodeURI) {
           word.link.href = encodeURI(word.link.href).replace(/'/g, '%27');
         }
@@ -339,8 +344,8 @@
       this.$element.append(word_span);
 
       word_size = {
-        width: word_span.width(),
-        height: word_span.height()
+        width: word_span.outerWidth(),
+        height: word_span.outerHeight()
       };
       word_size.left = this.options.center.x*this.options.width - word_size.width / 2.0;
       word_size.top = this.options.center.y*this.options.height - word_size.height / 2.0;

@@ -54,7 +54,8 @@
     autoResize: false,
     colors: null,
     fontSize: null,
-    template: null
+    template: null,
+    blank: false
   };
 
   jQCloud.prototype = {
@@ -320,6 +321,10 @@
         // If link is a string, then use it as the link href
         if (typeof word.link === 'string') {
           word.link = { href: word.link };
+        }
+
+        if (this.options.blank) {
+            word.link.target = '_blank';
         }
 
         if (this.options.encodeURI) {
